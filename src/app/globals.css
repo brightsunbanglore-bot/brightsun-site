@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+/* BrightSunSEO brand system (approved): golden yellow, rich orange,
+   warm ivory, cream and espresso. */
+:root {
+  --sun: #ffc233;
+  --flame: #ff8a1d;
+  --ivory: #fffdf7;
+  --cream: #fff3dc;
+  --espresso: #231b18;
+  --white: #ffffff;
+
+  --background: var(--ivory);
+  --foreground: var(--espresso);
+}
+
+@theme inline {
+  --color-sun: var(--sun);
+  --color-flame: var(--flame);
+  --color-ivory: var(--ivory);
+  --color-cream: var(--cream);
+  --color-espresso: var(--espresso);
+  --color-white: var(--white);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Legacy aliases used by the other (not yet redesigned) pages — they now
+     resolve to the new brand system so no earlier maroon remains. */
+  --color-ink: var(--espresso);
+  --color-paper: var(--ivory);
+  --color-maroon: var(--flame);
+  --color-muted: color-mix(in srgb, var(--espresso) 62%, transparent);
+  --color-border: color-mix(in srgb, var(--espresso) 12%, transparent);
+  --color-accent: var(--flame);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-bricolage);
+  --font-hero: var(--font-bricolage);
+}
+
+html {
+  background: var(--background);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--sun);
+  color: var(--espresso);
+}
+
+:focus-visible {
+  outline: 2px solid var(--flame);
+  outline-offset: 3px;
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-[0.72rem] font-medium uppercase tracking-[0.24em] text-ink/55;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* Bricolage has no true italic: render emphasis upright. */
+.font-display em,
+.font-hero em {
+  font-style: normal;
+}
+
+/* SplitText masks: keep descenders from clipping */
+.masked-line {
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+/* Hero entrance initial state — set in CSS so nothing flashes before
+   hydration. GSAP animates from here; reduced-motion users see it static. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-hero-word] {
+    transform: translateY(110%);
+  }
+  [data-hero-fade],
+  [data-hero-float] {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Lenis recommended styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* header over a dark opening screen (About): light wordmark and menu */
+.hdr-dark a[aria-label*="home"] .text-espresso { color: #fff8ea !important; }
+.hdr-dark nav[aria-label="Main"] a { color: rgba(255, 248, 234, 0.72) !important; }
+.hdr-dark nav[aria-label="Main"] a[aria-current="page"],
+.hdr-dark nav[aria-label="Main"] a:hover { color: #fff8ea !important; }
+
+/* ---- Blog article text (used on /blogs/[slug] and the editor) ---- */
+.blog-prose { color: rgba(35, 27, 24, 0.86); font-size: 1.075rem; line-height: 1.8; overflow-wrap: anywhere; }
+.blog-prose > * + * { margin-top: 1.25em; }
+.blog-prose h2 { font-family: var(--font-hero); font-size: 1.9rem; font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; color: var(--espresso); margin-top: 2.2em; scroll-margin-top: 7rem; }
+.blog-prose h3 { font-family: var(--font-hero); font-size: 1.4rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; color: var(--espresso); margin-top: 1.8em; scroll-margin-top: 7rem; }
+.blog-prose h4 { font-weight: 700; color: var(--espresso); margin-top: 1.6em; }
+.blog-prose a { color: var(--espresso); font-weight: 600; text-decoration: underline; text-decoration-color: var(--sun); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.blog-prose a:hover { color: var(--flame); }
+.blog-prose ul { list-style: disc; padding-left: 1.4em; }
+.blog-prose ol { list-style: decimal; padding-left: 1.4em; }
+.blog-prose li + li { margin-top: 0.4em; }
+.blog-prose blockquote { border-left: 4px solid var(--sun); background: var(--cream); padding: 1em 1.3em; border-radius: 0 1rem 1rem 0; font-style: italic; }
+.blog-prose img { max-width: 100%; height: auto; border-radius: 1.25rem; margin-inline: auto; }
+.blog-prose figure { margin-top: 1.8em; }
+.blog-prose figcaption { margin-top: 0.6em; text-align: center; font-size: 0.85rem; color: rgba(35, 27, 24, 0.55); }
+.blog-prose hr { border: 0; height: 2px; background: rgba(35, 27, 24, 0.1); margin-block: 2.2em; }
+.blog-prose code { background: var(--cream); border-radius: 0.4rem; padding: 0.1em 0.4em; font-size: 0.92em; }
+.blog-prose pre { background: var(--espresso); color: var(--ivory); border-radius: 1rem; padding: 1.1em 1.3em; overflow-x: auto; }
+.blog-prose pre code { background: none; padding: 0; }
+.blog-prose table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.blog-prose th, .blog-prose td { border: 1px solid rgba(35, 27, 24, 0.14); padding: 0.6em 0.8em; text-align: left; }
+.blog-prose th { background: var(--cream); }
+
+/* blog editor: placeholder text and clickable pictures */
+.blog-editor:empty::before { content: attr(data-placeholder); color: rgba(35, 27, 24, 0.35); pointer-events: none; }
+.blog-editor img { cursor: pointer; outline: 2px solid transparent; transition: outline-color .2s; }
+.blog-editor img:hover { outline-color: var(--sun); }
+
+/* find & replace highlights in the blog editor */
+::highlight(bs-find) { background-color: #ffe08a; color: #231b18; }
+::highlight(bs-find-cur) { background-color: #ff8a1d; color: #ffffff; }

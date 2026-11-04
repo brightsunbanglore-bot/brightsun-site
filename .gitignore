@@ -1,0 +1,26 @@
+# dependencies
+node_modules
+
+# Next.js build output
+.next
+out
+build
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# secrets and local settings (never commit)
+.env
+.env.*
+!.env.example
+
+# blog content and enquiries saved by the running site
+data/blog
+data/leads.jsonl
+
+# logs and editor / OS clutter
+*.log
+npm-debug.log*
+.DS_Store
+.vscode
+.idea
+*.zip
